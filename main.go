@@ -48,7 +48,15 @@ func getProducts(name string, size string, page string, countryCode string, incl
 }
 
 func main() {
-	resp := getProducts("Amazon", strconv.Itoa(10), strconv.Itoa(0), "US", strconv.FormatBool(true), strconv.FormatBool(true))
+
+	if len(os.Args[1:]) == 0 {
+		fmt.Println("Please provide a product name")
+		os.Exit(1)
+	}
+	args := os.Args[1:]
+	product := args[0]
+
+	resp := getProducts(product, strconv.Itoa(10), strconv.Itoa(0), "US", strconv.FormatBool(true), strconv.FormatBool(true))
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
